@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeWork</title>
+    <style>
+        #photo-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #photo-container img {
+            max-width: 80%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="photo-container">
+    <img id="photo" src="" alt="Unsplash Photo">
+    <p id="photographer"></p>
+    <button id="like-button">Like</button>
+    <p>Likes: <span id="like-count">0</span></p>
+</div>
+
+<script>
+    const accessKey = 'MyApiKey'; // Преподаватель посоветовал не выкладывать реальный ключ на GitHub
+    const apiUrl = 'https://api.unsplash.com/photos/random?client_id=' + accessKey;
+
+    const photoElement = document.getElementById('photo');
+    const photographerElement = document.getElementById('photographer');
+    const likeButton = document.getElementById('like-button');
+    const likeCountElement = document.getElementById('like-count');
+
+    function fetchRandomPhoto() {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                photoElement.src = data.urls.regular;
+                photographerElement.textContent = `Photographer: ${data.user.name}`;
+            })
+            .catch(error => {
+                console.error('Error fetching photo:', error);
+            });
+    }
+
+    fetchRandomPhoto();
+
+    let likeCount = 0;
+
+    likeButton.addEventListener('click', () => {
+        likeCount++;
+        likeCountElement.textContent = likeCount;
+    });
+</script>
+
+</body>
+</html>
